@@ -8,7 +8,10 @@
       path: '/',
       secure: <%= ::Rails.application.config.respond_to?(:browser_time_zone_secure_cookie) ?
                     ::Rails.application.config.browser_time_zone_secure_cookie :
-                    ::Rails.application.config.force_ssl %>
+                    ::Rails.application.config.force_ssl %>,
+      sameSite: <%= ::Rails.application.config.respond_to?(:browser_time_zone_same_site_cookie) ?
+                      ::Rails.application.config.browser_time_zone_same_site_cookie :
+                      '"Lax"' %>
     }
   );
 })();
