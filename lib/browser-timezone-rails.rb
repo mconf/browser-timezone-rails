@@ -18,8 +18,12 @@ module BrowserTimezoneRails
     private
 
     def set_time_zone(&action)
+      if ::Rails.application.config.respond_to?(:browser_time_zone_default_tz)
+        default = ::Rails.application.config.browser_time_zone_default_tz
+      end
       # Use existing methods to simplify filter
-      Time.use_zone(Time.find_zone(browser_timezone.presence) || Time.zone, &action)
+      zone = Time.find_zone(browser_timezone.presence) || (default.present? ? default : Time.zone)
+      Time.use_zone(zone, &action)
     end
 
     def browser_timezone
